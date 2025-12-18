@@ -1,0 +1,827 @@
+[
+{
+    "model": "db_model.subject",
+    "pk": "01305",
+    "fields": {
+        "subject_name": "컴퓨터구조"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01307",
+    "fields": {
+        "subject_name": "소프트웨어공학"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01308",
+    "fields": {
+        "subject_name": "운영체제"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01309",
+    "fields": {
+        "subject_name": "인공지능"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01320",
+    "fields": {
+        "subject_name": "컴퓨터알고리즘"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01333",
+    "fields": {
+        "subject_name": "졸업작품"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01353",
+    "fields": {
+        "subject_name": "논리회로"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01364",
+    "fields": {
+        "subject_name": "컴퓨터네트워크"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01605",
+    "fields": {
+        "subject_name": "데이터베이스"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01690",
+    "fields": {
+        "subject_name": "데이터구조"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01699",
+    "fields": {
+        "subject_name": "임베디드시스템"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "01768",
+    "fields": {
+        "subject_name": "유닉스와리눅스"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "03022",
+    "fields": {
+        "subject_name": "정보보안"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "03031",
+    "fields": {
+        "subject_name": "고급네트워킹"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "06263",
+    "fields": {
+        "subject_name": "모바일프로그래밍"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "17856",
+    "fields": {
+        "subject_name": "창의적공학설계"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "17960",
+    "fields": {
+        "subject_name": "전공종합설계(1)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "17961",
+    "fields": {
+        "subject_name": "전공종합설계(2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "18264",
+    "fields": {
+        "subject_name": "엔터프라이즈애플리케이션"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "18360",
+    "fields": {
+        "subject_name": "컴퓨터공학입문"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "18445",
+    "fields": {
+        "subject_name": "웹 표준기술"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "19646",
+    "fields": {
+        "subject_name": "현장실습(1)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "19647",
+    "fields": {
+        "subject_name": "현장실습(2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "19648",
+    "fields": {
+        "subject_name": "현장실습(3)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "19649",
+    "fields": {
+        "subject_name": "현장실습(4)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "19650",
+    "fields": {
+        "subject_name": "현장실습(5)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "19800",
+    "fields": {
+        "subject_name": "IT창업실습"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20356",
+    "fields": {
+        "subject_name": "머신러닝"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20357",
+    "fields": {
+        "subject_name": "텍스트마이닝"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20404",
+    "fields": {
+        "subject_name": "C프로그래밍"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20405",
+    "fields": {
+        "subject_name": "C프로그래밍응용"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20459",
+    "fields": {
+        "subject_name": "자바프로그래밍"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20460",
+    "fields": {
+        "subject_name": "윈도우프로그래밍"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20461",
+    "fields": {
+        "subject_name": "자바프로그래밍응용"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20470",
+    "fields": {
+        "subject_name": "파이썬프로그래밍"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20571",
+    "fields": {
+        "subject_name": "직무실무(2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20572",
+    "fields": {
+        "subject_name": "직무실무(1)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "20987",
+    "fields": {
+        "subject_name": "진로와취창업"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21048",
+    "fields": {
+        "subject_name": "자율현장실습(1)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21049",
+    "fields": {
+        "subject_name": "자율현장실습(2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21050",
+    "fields": {
+        "subject_name": "자율현장실습(3)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21051",
+    "fields": {
+        "subject_name": "자율현장실습(4)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21052",
+    "fields": {
+        "subject_name": "자율현장실습(5)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21093",
+    "fields": {
+        "subject_name": "웹응용기술"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21410",
+    "fields": {
+        "subject_name": "진로탐색(1)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21411",
+    "fields": {
+        "subject_name": "진로탐색(2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21702",
+    "fields": {
+        "subject_name": "전산수학"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21703",
+    "fields": {
+        "subject_name": "확률통계"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21704",
+    "fields": {
+        "subject_name": "선형대수"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21781",
+    "fields": {
+        "subject_name": "현장실습(1-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21782",
+    "fields": {
+        "subject_name": "현장실습(2-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21783",
+    "fields": {
+        "subject_name": "현장실습(3-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21784",
+    "fields": {
+        "subject_name": "현장실습(4-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21785",
+    "fields": {
+        "subject_name": "현장실습(5-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21786",
+    "fields": {
+        "subject_name": "자율현장실습(1-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21787",
+    "fields": {
+        "subject_name": "자율현장실습(2-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21788",
+    "fields": {
+        "subject_name": "자율현장실습(3-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21789",
+    "fields": {
+        "subject_name": "자율현장실습(4-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21790",
+    "fields": {
+        "subject_name": "자율현장실습(5-2)"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21798",
+    "fields": {
+        "subject_name": "자기설계학습경험1"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21799",
+    "fields": {
+        "subject_name": "자기설계학습경험2"
+    }
+},
+{
+    "model": "db_model.subject",
+    "pk": "21800",
+    "fields": {
+        "subject_name": "자기설계학습경험3"
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213452,
+    "fields": {
+        "name": "김민우",
+        "email": "minwoo@sungkyul.ac.kr",
+        "password": "3456",
+        "skill": "파이썬",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213453,
+    "fields": {
+        "name": "이서연",
+        "email": "seoyeon@sungkyul.ac.kr",
+        "password": "5678",
+        "skill": "GUI 프로그래밍",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213454,
+    "fields": {
+        "name": "박지훈",
+        "email": "jihoon@sungkyul.ac.kr",
+        "password": "7890",
+        "skill": "시스템 설계",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213455,
+    "fields": {
+        "name": "정예린",
+        "email": "yerin@sungkyul.ac.kr",
+        "password": "1234",
+        "skill": "커뮤니케이션",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213456,
+    "fields": {
+        "name": "한도윤",
+        "email": "doyun@sungkyul.ac.kr",
+        "password": "2345",
+        "skill": "python",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213457,
+    "fields": {
+        "name": "김지수",
+        "email": "jisu@sungkyul.ac.kr",
+        "password": "4567",
+        "skill": "react",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213458,
+    "fields": {
+        "name": "오승준",
+        "email": "seungjun@sungkyul.ac.kr",
+        "password": "6789",
+        "skill": "react",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213459,
+    "fields": {
+        "name": "강민혁",
+        "email": "minhyuk@sungkyul.ac.kr",
+        "password": "8901",
+        "skill": "react",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213460,
+    "fields": {
+        "name": "이유진",
+        "email": "yujin@sungkyul.ac.kr",
+        "password": "2346",
+        "skill": "react",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213461,
+    "fields": {
+        "name": "서지우",
+        "email": "jiwoo@sungkyul.ac.kr",
+        "password": "3457",
+        "skill": "react",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213462,
+    "fields": {
+        "name": "최성민",
+        "email": "seongmin@sungkyul.ac.kr",
+        "password": "4568",
+        "skill": "java",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213463,
+    "fields": {
+        "name": "문하윤",
+        "email": "hayun@sungkyul.ac.kr",
+        "password": "5679",
+        "skill": "java",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213464,
+    "fields": {
+        "name": "조가영",
+        "email": "gayeong@sungkyul.ac.kr",
+        "password": "6780",
+        "skill": "java",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213465,
+    "fields": {
+        "name": "배현우",
+        "email": "hyunwoo@sungkyul.ac.kr",
+        "password": "7891",
+        "skill": "java",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213466,
+    "fields": {
+        "name": "신도경",
+        "email": "dokyung@sungkyul.ac.kr",
+        "password": "8902",
+        "skill": "java",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213467,
+    "fields": {
+        "name": "엄세빈",
+        "email": "saebin@sungkyul.ac.kr",
+        "password": "9013",
+        "skill": "java",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213468,
+    "fields": {
+        "name": "홍승아",
+        "email": "seunga@sungkyul.ac.kr",
+        "password": "1235",
+        "skill": "java",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213469,
+    "fields": {
+        "name": "강서준",
+        "email": "seojun@sungkyul.ac.kr",
+        "password": "2347",
+        "skill": "python",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213470,
+    "fields": {
+        "name": "노윤서",
+        "email": "yunseo@sungkyul.ac.kr",
+        "password": "3459",
+        "skill": "python",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20213471,
+    "fields": {
+        "name": "유지호",
+        "email": "jiho@sungkyul.ac.kr",
+        "password": "4560",
+        "skill": "python",
+        "profile_image": null,
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20221234,
+    "fields": {
+        "name": "정세준",
+        "email": "sejun@sungkyul.ac.kr",
+        "password": "1234",
+        "skill": "python,리더십,팀장",
+        "profile_image": "https://infloop-aiservice.s3.ap-northeast-2.amazonaws.com/profile_images/user_20221234.png",
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20222345,
+    "fields": {
+        "name": "황인우",
+        "email": "inwoo@sungkyul.ac.kr",
+        "password": "2345",
+        "skill": "python, java, 팀원역할",
+        "profile_image": "https://infloop-aiservice.s3.ap-northeast-2.amazonaws.com/profile_images/user_20222345.jpg",
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+},
+{
+    "model": "db_model.user",
+    "pk": 20223456,
+    "fields": {
+        "name": "김진성",
+        "email": "jinsung@sungkyul.ac.kr",
+        "password": "3456",
+        "skill": "python",
+        "profile_image": "https://infloop-aiservice.s3.ap-northeast-2.amazonaws.com/profile_images/user_20223456.png",
+        "subject1": null,
+        "subject2": null,
+        "subject3": null,
+        "subject4": null,
+        "subject5": null,
+        "subject6": null
+    }
+}
+]

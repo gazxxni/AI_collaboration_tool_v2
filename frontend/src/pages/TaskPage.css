@@ -1,0 +1,512 @@
+/* 전체 래퍼 */
+.TaskPage_wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    overflow: auto;
+    background-color: #f9fafb;
+}
+
+/* Topbar 헤더 영역 */
+.TaskPage_Topbarst_header {
+    z-index: 999;
+    width: 98vw;
+}
+
+/* 컨트롤 바 */
+.TaskPage_controlRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #E5E5E5;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.ControlLeft {
+    display: flex;
+    align-items: center;
+}
+
+.TaskNameInput {
+    width: 350px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background-color: #f9fafb;
+}
+
+.TaskNameInput:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.ControlRight {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* 필터 버튼 */
+.TaskPage_FilterButton {
+    padding: 0.75rem 1rem;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 12px;
+    background: #3b82f6;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+}
+
+.TaskPage_FilterButton:hover {
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    background: #2563eb;
+}
+
+/* 줌 및 업무 추가 버튼 그룹 */
+.ZoomAndNew {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* 줌(-, +) 버튼 스타일 */
+.ZoomAndNew button {
+    padding: 0.75rem 1rem;
+    border: none;
+    color: black;
+    cursor: pointer;
+    border-radius: 12px;
+    background: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(172, 172, 172, 0.3);
+}
+
+.ZoomAndNew button:hover {
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 6px 20px rgba(128, 128, 128, 0.4);
+    background: gray;
+}
+
+/* 상위 업무 추가 버튼 */
+.ZoomAndNew .AddTaskButton {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+}
+
+.ZoomAndNew .AddTaskButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    background: #2563eb;
+}
+
+/* 하위 업무 추가 셀렉트 */
+.ZoomAndNew .ParentSelect {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+}
+
+.ZoomAndNew .ParentSelect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    background: #2563eb;
+}
+
+.ParentSelect option {
+    color: black;
+}
+
+.ParentSelect option[value=""] {
+    color: #999;
+}
+
+/* ✅ [개선] 필터 패널 - 가로/세로 혼합 레이아웃 */
+.FilterPanel {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+/* 카테고리 섹션 (세로) */
+.FilterSection_vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    min-width: 150px;
+}
+
+/* 나머지 필터 섹션 (가로) */
+.FilterSection_horizontal {
+    flex: 1;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+/* 필터 그룹 */
+.FilterGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 150px;
+}
+
+.FilterGroup h4 {
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.FilterGroup label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    transition: color 0.2s ease;
+    user-select: none;
+}
+
+.FilterGroup label:hover {
+    color: #2563eb;
+}
+
+.FilterGroup input[type="radio"],
+.FilterGroup input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #3b82f6;
+    cursor: pointer;
+}
+
+.FilterGroup select {
+    width: 100%;
+    padding: 0.625rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #374151;
+}
+
+.FilterGroup select:hover {
+    border-color: #3b82f6;
+}
+
+.FilterGroup select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 날짜 입력 */
+.DateInputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.DateInputs input[type="date"] {
+    padding: 0.5rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    flex: 1;
+}
+
+.DateInputs span {
+    color: #6b7280;
+}
+
+/* 담당자 스크롤 박스 */
+.FilterScrollBox {
+    max-height: 120px;
+    overflow-y: auto;
+    border: 1px solid #f3f4f6;
+    border-radius: 8px;
+    padding: 0.5rem;
+    background: #f9fafb;
+}
+
+.NoData {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-align: center;
+    margin: 0;
+}
+
+/* 필터 초기화 버튼 */
+.ResetFilterButton {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    align-self: flex-start;
+}
+
+.ResetFilterButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+/* ✅ [수정] 간트차트 컨테이너 */
+.GanttContainer {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    margin: 1rem 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+/* ✅ [수정] 왼쪽 고정 테이블 - 행 높이 통일 */
+.LeftTable {
+    flex: 0 0 auto;
+    border-collapse: collapse;
+    background: white;
+}
+
+.LeftTable th,
+.LeftTable td {
+    padding: 0.75rem;
+    border-right: 1px solid #e5e7eb;
+    border-bottom: 1px solid #f3f4f6;
+    white-space: nowrap;
+    text-align: left;
+    height: 50px; /* ✅ 고정 높이 */
+}
+
+.LeftTable th {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.LeftTable .col-task {
+    width: 250px;
+}
+
+.LeftTable .col-assignee {
+    width: 100px;
+    text-align: center;
+}
+
+.LeftTable .col-status {
+    width: 100px;
+    text-align: center;
+}
+
+/* 오른쪽 스크롤 테이블 */
+.RightTableWrapper {
+    flex: 1 1 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    cursor: grab;
+}
+
+.RightTableWrapper.dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+/* ✅ [수정] 오른쪽 테이블 - 행 높이 통일 */
+.RightTable {
+    border-collapse: collapse;
+    width: max-content;
+    background: white;
+}
+
+.RightTable th,
+.RightTable td {
+    padding: 0;
+    text-align: center;
+    box-sizing: border-box;
+    height: 50px; /* ✅ 왼쪽 테이블과 동일 */
+}
+
+.RightTable th {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.75rem;
+    border-bottom: 2px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb; /* ✅ 세로 구분선 */
+}
+
+/* ✅ [신규] 간트 차트 날짜별 셀 - 세로 구분선 표시 */
+.gantt-cell-day {
+    position: relative;
+    background: #f9fafb;
+    border-right: 1px solid #e5e7eb; /* ✅ 날짜 구분선 */
+    border-bottom: 1px solid #f3f4f6;
+}
+
+/* 간트 차트 바 */
+.gantt-bar {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+/* 주차 헤더 */
+.week_tr th {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    color: #1e40af;
+    font-weight: 600;
+    border-right: 2px solid #3b82f6 !important; /* ✅ 주차 구분 강조 */
+}
+
+/* 트리 구조 */
+.TreeItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.TreeItem:hover {
+    color: #2563eb;
+}
+
+.ToggleBtn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.ToggleBtn:hover {
+    background-color: #f3f4f6;
+    color: #2563eb;
+}
+
+/* 상태 배지 */
+.StatusBadge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.StatusBadge.status-요청 {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+}
+
+.StatusBadge.status-진행 {
+    background: linear-gradient(135deg, #10b981, #34d399);
+}
+
+.StatusBadge.status-피드백 {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.StatusBadge.status-완료 {
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+}
+
+.StatusBadge.status-보류 {
+    background: linear-gradient(135deg, #6b7280, #9ca3af);
+}
+
+/* 상세 패널 */
+.TaskPage_rightSide {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    width: 500px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+    z-index: 999;
+    overflow: hidden;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+/* 반응형 */
+@media (max-width: 1024px) {
+    .TaskPage_controlRow {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .FilterPanel {
+        flex-direction: column;
+    }
+
+    .FilterSection_horizontal {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,21 @@
+sk-==***REMOVED***
+AKIA==***REMOVED***
+
+# 1. 시스템 패키지 업데이트 및 기본 도구 설치
+sudo apt update
+sudo apt install python3-pip python3-dev python3-venv libmysqlclient-dev build-essential pkg-config -y
+
+# 2. 데이터베이스 및 웹 서버 설치
+sudo apt install mysql-server nginx -y
+
+# 3. 파이썬 가상 환경 생성 및 활성화
+python3 -m venv venv
+source venv/bin/activate
+
+# 4. 장고 및 프로젝트 필수 라이브러리 설치
+pip install django django-cors-headers python-dotenv djangorestframework django-extensions pymysql mysqlclient channels daphne
+
+# 5. 서버 실행 및 Nginx 관련 주요 명령어
+sudo systemctl restart nginx
+sudo nginx -t
+python3 manage.py runserver 0.0.0.0:8000

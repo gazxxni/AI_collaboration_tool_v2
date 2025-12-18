@@ -1,0 +1,8 @@
+# 모든 쉘 스크립트 파일은 LF로 저장
+*.sh text eol=lf
+
+# Windows 배치 파일은 CRLF로 저장
+*.bat text eol=crlf
+
+# Markdown 파일은 LF로 저장
+*.md text eol=lf
