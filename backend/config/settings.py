@@ -1,5 +1,9 @@
 from pathlib import Path
 import os
+import pymysql
+pymysql.install_as_MySQLdb()
+pymysql.version_info = (2, 2, 1, "final", 0)
+pymysql.__version__ = "2.2.1"
 from dotenv import load_dotenv
 
 # .env 파일 로드 (환경변수 관리)

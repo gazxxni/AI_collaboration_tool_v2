@@ -112,6 +112,11 @@ class Task(models.Model):
 
     class Meta:
         db_table = "Task"
+        indexes = [
+            # filesort 제거 목적: WHERE status = ... ORDER BY created_date DESC 패턴 최적화
+            # 등호 조건(status)을 선행, 정렬 조건(created_date)을 후행
+            models.Index(fields=['status', '-created_date'], name='idx_task_status_created_date'),
+        ]
 
 
 class TaskManager(models.Model):

@@ -1,40 +1,126 @@
 """
 회의록 관련 뷰
-- 음성 파일 STT 변환 (Async Whisper)
+- 음성 파일 STT 변환 (Faster-Whisper 로컬 모델 + Pyannote 화자 분리)
 - 회의록 요약 및 포맷팅 (Async GPT-4o)
 """
 import os
+import asyncio
 import tempfile
 import json
 import logging
 
+import torch
 import openai
+from faster_whisper import WhisperModel
+from pyannote.audio import Pipeline
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from dotenv import load_dotenv
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
+hf_token = os.getenv("HF_TOKEN")
+
+logger = logging.getLogger(__name__)
 
 # API 키 확인
 if not api_key:
-    logger = logging.getLogger(__name__)
     logger.error("OPENAI_API_KEY is missing in .env file")
+if not hf_token:
+    logger.warning("HF_TOKEN is missing — 화자 분리(Pyannote) 비활성화")
 
+# GPT-4o 요약용 클라이언트 (유지)
 client = openai.AsyncOpenAI(api_key=api_key)
 
-logger = logging.getLogger(__name__)
+# ── 로컬 STT/화자분리 모델 (지연 초기화) ──────────────────────────────────
+_whisper_model = None
+_diarization_pipeline = None
+
+def _get_whisper() -> WhisperModel:
+    """Faster-Whisper 모델 싱글턴 반환 (최초 1회만 로드)"""
+    global _whisper_model
+    if _whisper_model is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        compute_type = "float16" if device == "cuda" else "int8"
+        model_size = "large-v3" if device == "cuda" else "small"
+        logger.info(f"Faster-Whisper 로드: {model_size} / {device} / {compute_type}")
+        _whisper_model = WhisperModel(model_size, device=device, compute_type=compute_type)
+    return _whisper_model
+
+def _get_diarization():
+    """Pyannote 파이프라인 싱글턴 반환 (HF_TOKEN 없으면 None)"""
+    global _diarization_pipeline
+    if _diarization_pipeline is None and hf_token:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        logger.info("Pyannote speaker-diarization-3.1 로드 중...")
+        _diarization_pipeline = Pipeline.from_pretrained(
+            "pyannote/speaker-diarization-3.1",
+            use_auth_token=hf_token
+        )
+        _diarization_pipeline.to(torch.device(device))
+    return _diarization_pipeline
+
+# ── 헬퍼 함수 ──────────────────────────────────────────────────────────────
+def _assign_speaker(seg_start, seg_end, diar_result) -> str:
+    """STT 세그먼트 시간 구간에 가장 많이 겹치는 화자를 반환"""
+    speaker_times: dict[str, float] = {}
+    for turn, _, speaker in diar_result.itertracks(yield_label=True):
+        overlap = max(0, min(seg_end, turn.end) - max(seg_start, turn.start))
+        if overlap > 0:
+            speaker_times[speaker] = speaker_times.get(speaker, 0) + overlap
+    return max(speaker_times, key=speaker_times.get) if speaker_times else "Unknown"
+
+
+def _run_transcribe(audio_path: str, num_speakers: int | None) -> str:
+    """
+    동기 함수 — asyncio.to_thread()로 호출됨.
+    Faster-Whisper STT + Pyannote 화자 분리를 결합해 타임스탬프 포함 텍스트 반환.
+    """
+    whisper = _get_whisper()
+    segments, _ = whisper.transcribe(audio_path, language="ko")
+    segments = list(segments)
+
+    diarization = _get_diarization()
+    if diarization:
+        kwargs = {"num_speakers": num_speakers} if num_speakers else {}
+        diar_result = diarization(audio_path, **kwargs)
+
+        lines = []
+        for seg in segments:
+            speaker = _assign_speaker(seg.start, seg.end, diar_result)
+            mm, ss = int(seg.start // 60), int(seg.start % 60)
+            lines.append(f"[{mm:02d}:{ss:02d}] {speaker}: {seg.text.strip()}")
+        return "\n".join(lines)
+    else:
+        # Pyannote 미설정 시 텍스트만 반환
+        return " ".join(seg.text.strip() for seg in segments)
+
+# ── [이전 코드] OpenAI Whisper API 방식 (주석 처리) ─────────────────────────
+# client_old = openai.AsyncOpenAI(api_key=api_key)
+#
+# async def transcribe_audio_openai(request):
+#     uploaded = request.FILES["audio"]
+#     with open(audio_path, "rb") as af:
+#         resp = await client_old.audio.transcriptions.create(
+#             model="whisper-1",
+#             file=af,
+#             response_format="text",
+#             language="ko"
+#         )
+#     transcript = resp if isinstance(resp, str) else getattr(resp, "text", "")
+# ─────────────────────────────────────────────────────────────────────────────
 
 
 @csrf_exempt
 async def transcribe_audio(request):
-    """음성 파일 STT 변환 (Whisper API - Async)"""
+    """음성 파일 STT 변환 (Faster-Whisper 로컬 모델 + Pyannote 화자 분리)"""
     if request.method != "POST" or "audio" not in request.FILES:
         return JsonResponse({"error": "audio 파일이 필요합니다."}, status=400)
 
     uploaded = request.FILES["audio"]
     audio_path = None
-    
+    tmp_created = False
+
     try:
         if hasattr(uploaded, "temporary_file_path"):
             audio_path = uploaded.temporary_file_path()
@@ -44,24 +130,22 @@ async def transcribe_audio(request):
                 for chunk in uploaded.chunks():
                     tmp.write(chunk)
             audio_path = tmp.name
+            tmp_created = True
 
-        # Whisper 모델 호출
-        with open(audio_path, "rb") as af:
-            resp = await client.audio.transcriptions.create(
-                model="whisper-1",
-                file=af,
-                response_format="text",
-                language="ko"
-            )
-        
-        transcript = resp if isinstance(resp, str) else getattr(resp, "text", "")
+        # 화자 수 파라미터 (선택, 알 때만 전달)
+        num_speakers_raw = request.POST.get("num_speakers")
+        num_speakers = int(num_speakers_raw) if num_speakers_raw else None
+
+        # 동기 STT 함수를 별도 스레드에서 실행 (비동기 뷰와 호환)
+        transcript = await asyncio.to_thread(_run_transcribe, audio_path, num_speakers)
+
         return JsonResponse({"transcript": transcript})
-        
+
     except Exception as e:
         logger.error(f"Transcribe Error: {e}")
         return JsonResponse({"error": str(e)}, status=500)
     finally:
-        if audio_path and not hasattr(uploaded, "temporary_file_path") and os.path.exists(audio_path):
+        if tmp_created and audio_path and os.path.exists(audio_path):
             os.remove(audio_path)
 
 
