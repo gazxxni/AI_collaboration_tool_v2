@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from calendar import monthrange
-from django.db.models import Count, Exists, OuterRef, Max, Q
+from django.db.models import Count, Exists, OuterRef, Max, Q, Case, When, IntegerField
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from db_model.models import (
@@ -89,49 +89,37 @@ class DashboardView(APIView):
             .values('project_id', 'project_name', 'is_fav')
         )
 
-        # ✅ [개선됨] 프로젝트별 통계를 한 번에 조회
-        total_by_project = dict(
+        # ✅ [CASE/When] 프로젝트별 통계를 1개 쿼리로 처리 (기존 4개 쿼리 → 1개)
+        stats_qs = (
             TaskManager.objects
             .filter(project_id__in=project_ids)
             .values('project_id')
-            .annotate(cnt=Count('task', distinct=True))
-            .values_list('project_id', 'cnt')
+            .annotate(
+                total=Count('task', distinct=True),
+                done=Count(
+                    Case(When(task__status__in=DONE_STATUS_LIST, then=1), output_field=IntegerField()),
+                    distinct=True
+                ),
+                active=Count(
+                    Case(When(task__status__in=ACTIVE_STATUS_LIST, then=1), output_field=IntegerField()),
+                    distinct=True
+                ),
+                deadline=Max('task__end_date')
+            )
         )
-        
-        done_by_project = dict(
-            TaskManager.objects
-            .filter(project_id__in=project_ids, task__status__in=DONE_STATUS_LIST)
-            .values('project_id')
-            .annotate(cnt=Count('task', distinct=True))
-            .values_list('project_id', 'cnt')
-        )
-
-        active_by_project = dict(
-            TaskManager.objects
-            .filter(project_id__in=project_ids, task__status__in=ACTIVE_STATUS_LIST)
-            .values('project_id')
-            .annotate(cnt=Count('task', distinct=True))
-            .values_list('project_id', 'cnt')
-        )
-
-        deadline_by_project = dict(
-            TaskManager.objects
-            .filter(project_id__in=project_ids)
-            .values('project_id')
-            .annotate(deadline=Max('task__end_date'))
-            .values_list('project_id', 'deadline')
-        )
+        stats_by_project = {s['project_id']: s for s in stats_qs}
 
         # 프로젝트 데이터 조립
         projects_payload = []
         for p in projects_qs:
             pid = p['project_id']
-            total = total_by_project.get(pid, 0)
-            done = done_by_project.get(pid, 0)
+            stats = stats_by_project.get(pid, {})
+            total = stats.get('total', 0)
+            done = stats.get('done', 0)
             progress = int((done * 100) / total) if total else 0
-            ongoing = active_by_project.get(pid, 0)
+            ongoing = stats.get('active', 0)
 
-            dl = deadline_by_project.get(pid)
+            dl = stats.get('deadline')
             if dl:
                 dldate = dl.date() if hasattr(dl, "date") else dl
                 remaining_days = (dldate - today).days
@@ -155,15 +143,19 @@ class DashboardView(APIView):
         )
 
         if my_task_ids:
-            my_tasks_count = Task.objects.filter(task_id__in=my_task_ids).count()
-            completed_count = Task.objects.filter(
-                task_id__in=my_task_ids, 
-                status__in=DONE_STATUS_LIST
-            ).count()
-            incomplete_count = Task.objects.filter(
-                task_id__in=my_task_ids, 
-                status__in=INCOMPLETE_STATUS_LIST
-            ).count()
+            # ✅ [CASE/When] 내 업무 통계를 1개 쿼리로 처리 (기존 3개 쿼리 → 1개)
+            my_stats = Task.objects.filter(task_id__in=my_task_ids).aggregate(
+                my_tasks=Count('task_id'),
+                completed_tasks=Count(
+                    Case(When(status__in=DONE_STATUS_LIST, then=1), output_field=IntegerField())
+                ),
+                incomplete_tasks=Count(
+                    Case(When(status__in=INCOMPLETE_STATUS_LIST, then=1), output_field=IntegerField())
+                ),
+            )
+            my_tasks_count = my_stats['my_tasks']
+            completed_count = my_stats['completed_tasks']
+            incomplete_count = my_stats['incomplete_tasks']
         else:
             my_tasks_count = completed_count = incomplete_count = 0
 
