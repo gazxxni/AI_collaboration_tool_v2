@@ -1,6 +1,6 @@
 import logging
 from django.db import transaction
-from django.db.models import Count, Exists, OuterRef, Q
+from django.db.models import Count, Exists, OuterRef, Q, Prefetch
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -60,7 +60,10 @@ def cascade_complete(task, log_user, status_label_map):
 
 class TaskViewSet(viewsets.ModelViewSet):
     """업무(Task) CRUD 및 상태 관리 ViewSet"""
-    queryset = Task.objects.all()
+    # N+1 방지: TaskManager + User를 미리 한 번에 prefetch
+    queryset = Task.objects.prefetch_related(
+        Prefetch('taskmanager_set', queryset=TaskManager.objects.select_related('user'))
+    )
     serializer_class = TaskSerializer
     authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = []

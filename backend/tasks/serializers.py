@@ -18,18 +18,22 @@ class TaskSerializer(serializers.ModelSerializer):
     def get_assignee(self, obj):
         """
         단일 담당자 반환 (프론트엔드에서 task.assignee로 접근)
-        TaskManager에서 첫 번째 담당자를 반환하거나 "미정" 반환
+        prefetch_related 캐시에서 읽으므로 DB 조회 없음
         """
-        manager = TaskManager.objects.filter(task=obj).select_related('user').first()
-        if manager and manager.user:
-            return manager.user.name
+        # Before: TaskManager.objects.filter(task=obj).select_related('user').first()
+        managers = obj.taskmanager_set.all()
+        if managers:
+            first = managers[0]
+            return first.user.name if first.user else "미정"
         return "미정"
 
     def get_assignees(self, obj):
         """
         모든 담당자 리스트 반환 (다중 담당자 지원)
+        prefetch_related 캐시에서 읽으므로 DB 조회 없음
         """
-        managers = TaskManager.objects.filter(task=obj).select_related('user')
+        # Before: TaskManager.objects.filter(task=obj).select_related('user')
+        managers = obj.taskmanager_set.all()
         return [tm.user.name for tm in managers if tm.user]
 
 
