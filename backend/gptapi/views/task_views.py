@@ -11,6 +11,7 @@ from asgiref.sync import sync_to_async
 from dotenv import load_dotenv
 
 from db_model.models import Project, Task, TaskManager, User, ProjectMember
+from gptapi.utils import call_gpt_with_json_retry
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -172,42 +173,33 @@ async def generate_high_level_tasks(request):
         }}
         """
 
-        response = await client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "당신은 프로젝트 관리 전문가입니다."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.1,
-            max_tokens=3500
-        )
-        
-        response_text = response.choices[0].message.content.strip()
-        
-        if response_text.startswith("```"):
-            lines = response_text.splitlines()
-            if lines[0].startswith("```"): lines = lines[1:]
-            if lines and lines[-1].startswith("```"): lines = lines[:-1]
-            response_text = "\n".join(lines).strip()
+        messages = [
+            {"role": "system", "content": "당신은 프로젝트 관리 전문가입니다."},
+            {"role": "user", "content": prompt}
+        ]
 
         try:
-            tasks_data = json.loads(response_text)
-            validity = tasks_data.get("유효성", {})
-            
-            failed_fields = [field for field, valid in validity.items() if not valid]
-            if failed_fields:
-                return JsonResponse({
-                    "error": "입력 항목이 부적절합니다.", 
-                    "invalid_fields": failed_fields
-                }, status=400)
-            
-            return JsonResponse({
-                "project_name": tasks_data.get("프로젝트 이름"),
-                "tasks": tasks_data.get("주요 업무", [])
-            })
+            tasks_data = await call_gpt_with_json_retry(
+                client, messages, temperature=0.1, max_tokens=3500
+            )
+        except json.JSONDecodeError:
+            return JsonResponse(
+                {"error": "JSON 파싱 실패 (3회 재시도 후 최종 실패)"},
+                status=500
+            )
 
-        except json.JSONDecodeError as e:
-            return JsonResponse({"error": "JSON 파싱 실패", "raw": response_text}, status=500)
+        validity = tasks_data.get("유효성", {})
+        failed_fields = [field for field, valid in validity.items() if not valid]
+        if failed_fields:
+            return JsonResponse({
+                "error": "입력 항목이 부적절합니다.",
+                "invalid_fields": failed_fields
+            }, status=400)
+
+        return JsonResponse({
+            "project_name": tasks_data.get("프로젝트 이름"),
+            "tasks": tasks_data.get("주요 업무", [])
+        })
 
     except Exception as e:
         logger.error(f"Generate Tasks Error: {e}")

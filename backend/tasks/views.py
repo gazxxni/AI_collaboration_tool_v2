@@ -78,7 +78,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     # backend/tasks/views.py - get_queryset() 개선
 
     def get_queryset(self):
-        queryset = Task.objects.all()
+        queryset = super().get_queryset()  # 클래스 레벨 prefetch_related 유지
         
         # 상세 조회/수정/삭제 시 필터링 건너뛰기
         if self.action in ['retrieve', 'update', 'partial_update', 'destroy']:

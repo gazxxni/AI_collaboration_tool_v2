@@ -16,6 +16,7 @@ from pyannote.audio import Pipeline
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from dotenv import load_dotenv
+from gptapi.utils import call_gpt_with_json_retry
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -235,38 +236,27 @@ async def summarize_meeting(request):
         - false 면 user 가 수정할 수 있도록 유효성 결과만 돌려주세요.
         """
 
-        # [수정] 모델명을 'gpt-4o'로 변경하여 호환성 문제 해결
-        response = await client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "너는 회의록 작성 전문가야."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3,
-            max_tokens=4000,
-        )
-        
-        raw = response.choices[0].message.content
-        
-        # 마크다운 코드 블록 제거
-        if raw.startswith("```"):
-            lines = raw.splitlines()
-            if lines and lines[0].startswith("```"): lines = lines[1:]
-            if lines and lines[-1].startswith("```"): lines = lines[:-1]
-            raw = "\n".join(lines).strip()
+        messages = [
+            {"role": "system", "content": "너는 회의록 작성 전문가야."},
+            {"role": "user", "content": prompt}
+        ]
 
         try:
-            result = json.loads(raw)
-            # 유효성 검사 (선택 사항)
-            validity = result.get("유효성", {})
-            if validity.get("회의록 형식") is False or validity.get("회의록 내용") is False:
-                 return JsonResponse({"invalid": validity}, status=400)
-
-            return JsonResponse({"summary_html": result.get("summary_html", "")}, status=200)
-            
+            result = await call_gpt_with_json_retry(
+                client, messages, temperature=0.3, max_tokens=4000
+            )
         except json.JSONDecodeError:
-            logger.error(f"JSON Parse Error. Raw response: {raw}")
-            return JsonResponse({"error": "GPT 응답 파싱 실패", "raw": raw}, status=500)
+            return JsonResponse(
+                {"error": "GPT 응답 파싱 실패 (3회 재시도 후 최종 실패)"},
+                status=500
+            )
+
+        # 유효성 검사
+        validity = result.get("유효성", {})
+        if validity.get("회의록 형식") is False or validity.get("회의록 내용") is False:
+            return JsonResponse({"invalid": validity}, status=400)
+
+        return JsonResponse({"summary_html": result.get("summary_html", "")}, status=200)
 
     except Exception as e:
         logger.error(f"Summarize Error: {e}")

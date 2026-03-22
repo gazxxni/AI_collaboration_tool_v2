@@ -18,6 +18,7 @@ from dotenv import load_dotenv
 
 from db_model.models import Task, TaskManager, User, Project, Minutes
 from log.views import create_log
+from gptapi.utils import call_gpt_with_json_retry
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -130,32 +131,22 @@ async def extract_tasks_from_minutes(request):
         JSON만 출력하고 다른 설명은 포함하지 마세요.
         """
         
-        # 4. AI 호출 (Async)
-        response = await client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "당신은 회의록 분석 및 업무 관리 전문가입니다."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3,
-            max_tokens=3000
-        )
-        
-        result = response.choices[0].message.content
-        
-        # JSON 파싱 전처리
-        if result.startswith("```"):
-            lines = result.splitlines()
-            if lines and lines[0].startswith("```"): lines = lines[1:]
-            if lines and lines[-1].startswith("```"): lines = lines[:-1]
-            result = "\n".join(lines).strip()
-        
+        # 4. AI 호출 (Async) + JSON 파싱 재시도
+        messages = [
+            {"role": "system", "content": "당신은 회의록 분석 및 업무 관리 전문가입니다."},
+            {"role": "user", "content": prompt}
+        ]
+
         try:
-            tasks_data = json.loads(result)
+            tasks_data = await call_gpt_with_json_retry(
+                client, messages, temperature=0.3, max_tokens=3000
+            )
             return JsonResponse(tasks_data, status=200)
-        except json.JSONDecodeError as e:
-            logger.error(f"JSON 파싱 실패: {e}")
-            return JsonResponse({"error": "AI 응답 파싱 실패", "raw": result}, status=500)
+        except json.JSONDecodeError:
+            return JsonResponse(
+                {"error": "AI 응답 파싱 실패 (3회 재시도 후 최종 실패)"},
+                status=500
+            )
     
     except Exception as e:
         logger.error(f"Extract Tasks Error: {e}")
