@@ -1,6 +1,7 @@
 """
 GPT API 공통 유틸리티
-- JSON 응답 파싱 + 재시도 로직
+- response_format으로 JSON 출력 강제
+- JSON 파싱 실패 시 재시도 로직 (안전장치)
 """
 import json
 import logging
@@ -27,7 +28,8 @@ async def call_gpt_with_json_retry(client, messages, *, model="gpt-4o",
                                     max_retries=MAX_RETRIES):
     """
     GPT API를 호출하고 JSON 파싱을 시도합니다.
-    파싱 실패 시 최대 max_retries회 재시도합니다.
+    - response_format=json_object로 JSON 출력을 API 레벨에서 강제
+    - 그래도 파싱 실패 시 최대 max_retries회 재시도 (안전장치)
 
     Returns:
         dict: 파싱된 JSON 객체
@@ -43,6 +45,7 @@ async def call_gpt_with_json_retry(client, messages, *, model="gpt-4o",
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
+            response_format={"type": "json_object"},
         )
 
         raw = response.choices[0].message.content.strip()
@@ -56,7 +59,6 @@ async def call_gpt_with_json_retry(client, messages, *, model="gpt-4o",
                 logger.warning(
                     f"JSON 파싱 실패 (시도 {attempt}/{max_retries}), 재시도..."
                 )
-                # 대화 이력에 실패 응답 + 재지시 메시지를 추가하여 재호출
                 messages = messages + [
                     {"role": "assistant", "content": raw},
                     {"role": "user", "content":
