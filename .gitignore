@@ -35,6 +35,10 @@ staticfiles/
 # Environment variables
 .env
 
+# Claude Code
+.claude/
+CLAUDE.md
+
 # MacOS
 .DS_Store
 
